@@ -173,13 +173,13 @@ export default function CameraScreen() {
             case 'waiting':
                 return 'Presione "Iniciar" para comenzar';
             case 'lookRight':
-                return 'Mire hacia la DERECHA';
+                return 'Mire hacia la DERECHA 👉';
             case 'lookLeft':
-                return 'Mire hacia la IZQUIERDA';
+                return 'Mire hacia la IZQUIERDA 👈';
             case 'blink':
-                return 'PARPADEE los ojos';
+                return 'PARPADEE los ojos 👀';
             case 'completed':
-                return '¡Test completado!';
+                return '¡Verificación completada! ✅';
             default:
                 return '';
         }
