@@ -50,6 +50,18 @@ export default function CameraScreen() {
         setLivenessStep('lookRight');
         setStepCompleted(false);
         setStepStartTime(Date.now());
+        setBlinkDetected(false);
+        setLastBlinkTime(0);
+    };
+
+    // Función para reiniciar el test
+    const resetLivenessTest = () => {
+        setLivenessStatus('pending');
+        setLivenessStep('waiting');
+        setStepCompleted(false);
+        setStepStartTime(0);
+        setBlinkDetected(false);
+        setLastBlinkTime(0);
     };
 
     // Función para verificar la orientación de la cabeza y parpadeo
@@ -226,9 +238,14 @@ export default function CameraScreen() {
                 )}
                 
                 {livenessStatus === 'completed' && (
-                    <ThemedText type="title" style={styles.verifiedText}>
-                        ¡VERIFICADO!
-                    </ThemedText>
+                    <>
+                        <ThemedText type="title" style={styles.verifiedText}>
+                            ¡VERIFICADO!
+                        </ThemedText>
+                        <ThemedText onPress={resetLivenessTest} style={styles.resetButton}>
+                            Empezar de Nuevo
+                        </ThemedText>
+                    </>
                 )}
             </ThemedView>
             
@@ -320,6 +337,17 @@ const styles = StyleSheet.create({
         fontSize: 28,
         fontWeight: 'bold',
         textAlign: 'center',
+        marginBottom: 15,
+    },
+    resetButton: {
+        backgroundColor: '#FF9500',
+        color: 'white',
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 8,
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginTop: 10,
     },
     debugOverlay: {
         position: 'absolute',

@@ -11,8 +11,10 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSCameraUsageDescription": "$(PRODUCT_NAME) needs access to your Camera."
-      }
+        "NSCameraUsageDescription": "$(PRODUCT_NAME) needs access to your Camera.",
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "com.beidandev.testvivacidadvisioncomex"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +24,6 @@
       "edgeToEdgeEnabled": true,
       "minSdkVersion": 26,
       "permissions": [
-        "android.permission.CAMERA",
         "android.permission.CAMERA"
       ],
       "package": "com.beidandev.testvivacidadvisioncomex"
@@ -52,6 +53,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "4a81af6a-27e3-4359-b574-c633002217a4"
+      }
     }
   }
 }
