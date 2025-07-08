@@ -171,7 +171,7 @@ export default function CameraScreen() {
     const getInstructions = () => {
         switch (livenessStep) {
             case 'waiting':
-                return 'Presione "Iniciar Test" para comenzar';
+                return 'Presione "Iniciar" para comenzar';
             case 'lookRight':
                 return 'Mire hacia la DERECHA';
             case 'lookLeft':
@@ -224,7 +224,7 @@ export default function CameraScreen() {
             {/* Overlay de instrucciones */}
             <ThemedView style={styles.instructionsOverlay}>
                 <ThemedText type="title" style={styles.instructionTitle}>
-                    Test de Vivacidad
+                    Verificación de Vivacidad
                 </ThemedText>
                 
                 <ThemedText style={[styles.instructionText, { color: getStatusColor() }]}>
@@ -233,7 +233,7 @@ export default function CameraScreen() {
                 
                 {livenessStatus === 'pending' && (
                     <ThemedText onPress={startLivenessTest} style={styles.startButton}>
-                        Iniciar Test
+                        Iniciar
                     </ThemedText>
                 )}
                 
@@ -250,6 +250,7 @@ export default function CameraScreen() {
             </ThemedView>
             
             {/* Información de debug */}
+            {/*
             <ThemedView style={styles.debugOverlay}>
                 <ThemedText style={[styles.debugText, styles.fpsText]}>
                     FPS: {fps}
@@ -274,6 +275,7 @@ export default function CameraScreen() {
                     </ThemedText>
                 )}
             </ThemedView>
+            */}
         </ThemedView>
     );
 }
