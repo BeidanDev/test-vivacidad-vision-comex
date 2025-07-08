@@ -23,6 +23,7 @@ export default function CameraScreen() {
     const [fps, setFps] = useState<number>(0);
     const [frameCount, setFrameCount] = useState<number>(0);
     const [lastFpsTime, setLastFpsTime] = useState<number>(Date.now());
+    const [isCameraActive, setIsCameraActive] = useState(false);
 
     const { hasPermission, requestPermission } = useCameraPermission();
 
@@ -46,6 +47,7 @@ export default function CameraScreen() {
 
     // Función para iniciar el test de vivacidad
     const startLivenessTest = () => {
+        setIsCameraActive(true);
         setLivenessStatus('inProgress');
         setLivenessStep('lookRight');
         setStepCompleted(false);
@@ -56,6 +58,7 @@ export default function CameraScreen() {
 
     // Función para reiniciar el test
     const resetLivenessTest = () => {
+        setIsCameraActive(false);
         setLivenessStatus('pending');
         setLivenessStep('waiting');
         setStepCompleted(false);
@@ -140,6 +143,7 @@ export default function CameraScreen() {
                     setStepStartTime(Date.now());
                 } else if (nextStep === 'completed') {
                     setLivenessStatus('completed');
+                    setIsCameraActive(false);
                 }
             }
         }
@@ -217,7 +221,7 @@ export default function CameraScreen() {
             <Camera
                 style={StyleSheet.absoluteFill}
                 device={device!}
-                isActive={true}
+                isActive={isCameraActive}
                 frameProcessor={frameProcessor}
             />
             
