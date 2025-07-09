@@ -1,4 +1,5 @@
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+import * as SecureStore from 'expo-secure-store';
 import React, { useRef, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { Icon } from "react-native-paper";
@@ -8,8 +9,12 @@ export default function RandomIA() {
     const camera = useRef<Camera>(null);
     const device = useCameraDevice('back');
     const { width: screenWidth, height: screenHeight } = useWindowDimensions();
-    const [hasPermission, setHasPermission] = useState(false); // This state isn't currently used, consider using it for camera permission handling.
+    // const [hasPermission, setHasPermission] = useState(false); // This state isn't currently used, consider using it for camera permission handling.
     const [photoPath, setPhotoPath] = useState<string | null>(null); // Estado para guardar la ruta de la foto tomada
+    
+    // Obtener parámetros de la ruta
+    const params = useLocalSearchParams();
+    const imageType = params.imageType as string || 'frontal';
 
     // Función para tomar la foto
     const takePhoto = async () => {
@@ -24,6 +29,20 @@ export default function RandomIA() {
         }
     };
 
+    // Función para guardar la imagen en Secure Storage
+    const saveImageToStorage = async (imageType: string) => {
+        if (photoPath) {
+            try {
+                const key = `dni_${imageType}_image`;
+                await SecureStore.setItemAsync(key, photoPath);
+                console.log(`Imagen ${imageType} guardada en Secure Storage`);
+                router.back();
+            } catch (error) {
+                console.error("Error al guardar la imagen:", error);
+            }
+        }
+    };
+
     // You currently have this commented out. For a robust camera app,
     // you should handle camera permissions explicitly.
     // React.useEffect(() => {
@@ -33,13 +52,13 @@ export default function RandomIA() {
     //     })();
     // }, []);
 
-    if (device == null) { // Check if device is null before rendering Camera
-        return (
-            <View style={styles.container}>
-                <Text>Cargando cámara...</Text>
-            </View>
-        );
-    }
+    // if (device == null) { // Check if device is null before rendering Camera
+    //     return (
+    //         <View style={styles.container}>
+    //             <Text>Cargando cámara...</Text>
+    //         </View>
+    //     );
+    // }
 
     return (
         <View style={styles.container}>
@@ -91,7 +110,7 @@ export default function RandomIA() {
 
                     <TouchableOpacity style={getResponsiveStyles(screenWidth, screenHeight).confirmButton} onPress={() => {
                         console.log("Confirmar", photoPath);
-                        // setPhotoPath(photoPath);
+                        saveImageToStorage(imageType);
                     }}>
                         <Text style={getResponsiveStyles(screenWidth, screenHeight).buttonText}>Confirmar</Text>
                     </TouchableOpacity>
