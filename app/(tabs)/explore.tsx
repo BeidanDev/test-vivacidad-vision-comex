@@ -32,6 +32,14 @@ export default function TabTwoScreen() {
     }
   };
 
+  const clearImages = async () => {
+    await SecureStore.deleteItemAsync('dni_frontal_image');
+    await SecureStore.deleteItemAsync('dni_dorsal_image');
+    setFrontalImagePath(null);
+    setDorsalImagePath(null);
+    console.log('Imágenes limpiadas');
+  };
+
   // Cargar imágenes cuando la pantalla obtiene el foco
   useFocusEffect(
     React.useCallback(() => {
@@ -72,28 +80,38 @@ export default function TabTwoScreen() {
               size="large"
               onPress={() => router.push({
                 pathname: '/RandomIA',
+                params: { imageType: 'frontal' }
               })}
             />
           </Card>
         )}
 
         <Text variant="titleMedium">Dorsal</Text>
-        <Card style={{ width: '100%', height: '30%', alignItems: 'center', justifyContent: 'center' }}>
-          <FAB
-            icon="camera"
-            size="large"
-            onPress={() => router.push({
-              pathname: '/RandomIA',
-            })}
-          />
-        </Card>
+        {dorsalImagePath ? (
+          <Card>
+            <Card.Cover 
+              source={{ uri: `file://${dorsalImagePath}` }} 
+            />
+          </Card>
+        ) : (
+          <Card style={{ width: '100%', height: '30%', alignItems: 'center', justifyContent: 'center' }}>
+            <FAB
+              icon="camera"
+              size="large"
+              onPress={() => router.push({
+                pathname: '/RandomIA',
+                params: { imageType: 'dorsal' }
+              })}
+            />
+          </Card>
+        )}
 
         <ThemedView>
             <Button
                 mode="contained"
                 contentStyle={styles.buttonContent}
                 labelStyle={styles.buttonLabel}
-                onPress={() => console.log('Limpiar DNI')}
+                onPress={clearImages}
             >
                 Limpiar
             </Button>

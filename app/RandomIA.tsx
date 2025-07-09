@@ -14,7 +14,7 @@ export default function RandomIA() {
     
     // Obtener parámetros de la ruta
     const params = useLocalSearchParams();
-    const imageType = params.imageType as string || 'frontal';
+    const imageType = params.imageType as string;
 
     // Función para tomar la foto
     const takePhoto = async () => {
