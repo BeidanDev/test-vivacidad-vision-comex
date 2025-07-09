@@ -1,5 +1,7 @@
+import { router } from "expo-router";
 import React, { useRef, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Icon } from "react-native-paper";
 import { Camera, useCameraDevice } from "react-native-vision-camera";
 
 export default function RandomIA() {
@@ -50,6 +52,25 @@ export default function RandomIA() {
                         photo={true} // Habilita la captura de fotos
                     />
 
+                    {/* Close Button (Top Left) */}
+                    <TouchableOpacity style={styles.closeButton} onPress={() => {
+                        console.log("Close button pressed");
+                        router.back();
+                    }}>
+                        <View style={styles.iconBackground}>
+                            <Icon source="close" size={24} color="white" />
+                        </View>
+                    </TouchableOpacity>
+
+                    {/* Rotate Screen Button (Top Right) */}
+                    <TouchableOpacity style={styles.rotateButton} onPress={() => {
+                        console.log("Rotate button pressed");
+                    }}>
+                        <View style={styles.iconBackground}>
+                            <Icon source="flash" size={24} color="white" />
+                        </View>
+                    </TouchableOpacity>
+
                     {/* Botón para tomar la foto */}
                     <TouchableOpacity style={styles.captureButton} onPress={takePhoto}>
                         {/* The inner circle for the capture button */}
@@ -74,25 +95,44 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'black', // Add a background color for when camera isn't ready
+        backgroundColor: 'black',
+    },
+    closeButton: {
+        position: 'absolute',
+        top: 60, // Adjust top spacing as needed
+        left: 20, // Adjust left spacing as needed
+        zIndex: 1, // Ensure it's above the Camera view
+    },
+    rotateButton: {
+        position: 'absolute',
+        top: 60, // Adjust top spacing as needed
+        right: 20, // Adjust right spacing as needed
+        zIndex: 1, // Ensure it's above the Camera view
+    },
+    iconBackground: {
+        backgroundColor: 'rgba(0,0,0,0.5)', // Optional: Add a semi-transparent background for better visibility
+        borderRadius: 50, // Make it circular
+        width: 40,
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     captureButton: {
         position: 'absolute',
         bottom: 100,
-        width: 80, // Adjust size as needed
-        height: 80, // Adjust size as needed
-        borderRadius: 40, // Half of width/height to make it a perfect circle
-        borderWidth: 4, // White border
-        borderColor: 'white', // White border color
+        width: 80,
+        height: 80,
+        borderRadius: 40,
+        borderWidth: 4,
+        borderColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
-        // marginBottom: 50,
     },
     captureButtonInnerCircle: {
-        width: 65, // Slightly smaller than the outer circle
-        height: 65, // Slightly smaller than the outer circle
-        borderRadius: 32.5, // Half of width/height
-        backgroundColor: 'white', // Inner circle is white
+        width: 65,
+        height: 65,
+        borderRadius: 32.5,
+        backgroundColor: 'white',
     },
     buttonText: {
         color: 'black',
@@ -119,4 +159,4 @@ const styles = StyleSheet.create({
         opacity: 0.8,
         marginBottom: 50,
     },
-});
+})
