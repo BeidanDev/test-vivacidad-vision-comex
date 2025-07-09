@@ -51,8 +51,8 @@ export default function TabTwoScreen() {
         <ThemedView
             style={{
                 alignItems: 'center',
-                marginTop: height * 0.03,
-                marginBottom: height * 0.02
+                // marginTop: height * 0.03,
+                // marginBottom: height * 0.02
             }}
         >
             <Text variant="headlineLarge">Fotos de su DNI</Text>
@@ -88,18 +88,7 @@ export default function TabTwoScreen() {
           />
         </Card>
 
-        <ThemedView style={{ marginTop: height * 0.02 }}>
-            <Button
-                mode="contained"
-                contentStyle={styles.buttonContent}
-                labelStyle={styles.buttonLabel}
-                onPress={() => console.log('Confirmar DNI')}
-            >
-                Confirmar
-            </Button>
-        </ThemedView>
-
-        <ThemedView style={{ marginTop: height * 0.02 }}>
+        <ThemedView>
             <Button
                 mode="contained"
                 contentStyle={styles.buttonContent}
@@ -107,6 +96,17 @@ export default function TabTwoScreen() {
                 onPress={() => console.log('Limpiar DNI')}
             >
                 Limpiar
+            </Button>
+        </ThemedView>
+
+        <ThemedView>
+            <Button
+                mode="contained"
+                contentStyle={styles.buttonContent}
+                labelStyle={styles.buttonLabel}
+                onPress={() => console.log('Confirmar DNI')}
+            >
+                Confirmar
             </Button>
         </ThemedView>
       </ThemedView>
