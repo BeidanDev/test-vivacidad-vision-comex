@@ -53,7 +53,7 @@ export default function RandomIA() {
                     />
 
                     {/* Rectángulo de guía en el centro */}
-                    <View style={styles.guidelineRect} />
+                    {/* <View style={styles.guidelineRect} /> */}
 
                     {/* Close Button (Top Left) */}
                     <TouchableOpacity style={styles.closeButton} onPress={() => {
@@ -149,9 +149,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     previewImage: {
-        width: '90%',
-        height: '80%',
-        resizeMode: 'contain',
+        width: '100%',
+        height: '100%',
+        resizeMode: 'cover',
     },
     retakeButton: {
         position: 'absolute',
@@ -163,13 +163,13 @@ const styles = StyleSheet.create({
         marginBottom: 50,
     },
     // Nuevo estilo para el rectángulo de guía
-    guidelineRect: {
-        position: 'absolute',
-        width: '90%', // Ajusta el ancho según sea necesario
-        height: 250, // Ajusta la altura según sea necesario para un DNI
-        borderWidth: 2,
-        borderColor: 'white', // Color del borde del rectángulo
-        borderRadius: 10, // Bordes ligeramente redondeados
-        zIndex: 0, // Asegúrate de que esté debajo de los botones pero sobre la cámara
-    },
+    // guidelineRect: {
+    //     position: 'absolute',
+    //     width: '90%', // Ajusta el ancho según sea necesario
+    //     height: 250, // Ajusta la altura según sea necesario para un DNI
+    //     borderWidth: 2,
+    //     borderColor: 'white', // Color del borde del rectángulo
+    //     borderRadius: 10, // Bordes ligeramente redondeados
+    //     zIndex: 0, // Asegúrate de que esté debajo de los botones pero sobre la cámara
+    // },
 })
