@@ -1,12 +1,13 @@
 import { router } from "expo-router";
 import React, { useRef, useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { Icon } from "react-native-paper";
 import { Camera, useCameraDevice } from "react-native-vision-camera";
 
 export default function RandomIA() {
     const camera = useRef<Camera>(null);
     const device = useCameraDevice('back');
+    const { width: screenWidth, height: screenHeight } = useWindowDimensions();
     const [hasPermission, setHasPermission] = useState(false); // This state isn't currently used, consider using it for camera permission handling.
     const [photoPath, setPhotoPath] = useState<string | null>(null); // Estado para guardar la ruta de la foto tomada
 
@@ -56,36 +57,43 @@ export default function RandomIA() {
                     {/* <View style={styles.guidelineRect} /> */}
 
                     {/* Close Button (Top Left) */}
-                    <TouchableOpacity style={styles.closeButton} onPress={() => {
+                    <TouchableOpacity style={getResponsiveStyles(screenWidth, screenHeight).closeButton} onPress={() => {
                         console.log("Close button pressed");
                         router.back();
                     }}>
-                        <View style={styles.iconBackground}>
+                        <View style={getResponsiveStyles(screenWidth, screenHeight).iconBackground}>
                             <Icon source="close" size={24} color="white" />
                         </View>
                     </TouchableOpacity>
 
                     {/* Rotate Screen Button (Top Right) */}
-                    <TouchableOpacity style={styles.rotateButton} onPress={() => {
+                    <TouchableOpacity style={getResponsiveStyles(screenWidth, screenHeight).rotateButton} onPress={() => {
                         console.log("Rotate button pressed");
                     }}>
-                        <View style={styles.iconBackground}>
+                        <View style={getResponsiveStyles(screenWidth, screenHeight).iconBackground}>
                             <Icon source="flash" size={24} color="white" />
                         </View>
                     </TouchableOpacity>
 
                     {/* Botón para tomar la foto */}
-                    <TouchableOpacity style={styles.captureButton} onPress={takePhoto}>
+                    <TouchableOpacity style={getResponsiveStyles(screenWidth, screenHeight).captureButton} onPress={takePhoto}>
                         {/* The inner circle for the capture button */}
-                        <View style={styles.captureButtonInnerCircle} />
+                        <View style={getResponsiveStyles(screenWidth, screenHeight).captureButtonInnerCircle} />
                     </TouchableOpacity>
                 </>
             ) : (
                 /* Mostrar la foto tomada */
                 <View style={styles.previewContainer}>
                     <Image source={{ uri: `file://${photoPath}` }} style={styles.previewImage} />
-                    <TouchableOpacity style={styles.retakeButton} onPress={() => setPhotoPath(null)}>
-                        <Text style={styles.buttonText}>Tomar Otra</Text>
+                    <TouchableOpacity style={getResponsiveStyles(screenWidth, screenHeight).retakeButton} onPress={() => setPhotoPath(null)}>
+                        <Text style={getResponsiveStyles(screenWidth, screenHeight).buttonText}>Tomar Otra</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={getResponsiveStyles(screenWidth, screenHeight).confirmButton} onPress={() => {
+                        console.log("Confirmar", photoPath);
+                        // setPhotoPath(photoPath);
+                    }}>
+                        <Text style={getResponsiveStyles(screenWidth, screenHeight).buttonText}>Confirmar</Text>
                     </TouchableOpacity>
                 </View>
             )}
@@ -155,12 +163,21 @@ const styles = StyleSheet.create({
     },
     retakeButton: {
         position: 'absolute',
-        bottom: 50,
+        bottom: 70,
+        left: 50,
         backgroundColor: 'white',
         padding: 15,
         borderRadius: 10,
         opacity: 0.8,
-        marginBottom: 50,
+    },
+    confirmButton: {
+        position: 'absolute',
+        bottom: 70,
+        right: 50,
+        backgroundColor: 'white',
+        padding: 15,
+        borderRadius: 10,
+        opacity: 0.8,
     },
     // Nuevo estilo para el rectángulo de guía
     // guidelineRect: {
@@ -173,3 +190,69 @@ const styles = StyleSheet.create({
     //     zIndex: 0, // Asegúrate de que esté debajo de los botones pero sobre la cámara
     // },
 })
+
+// Estilos dinámicos responsivos
+const getResponsiveStyles = (screenWidth: number, screenHeight: number) => ({
+    // Botones de preview (ya existentes)
+    retakeButton: {
+        position: 'absolute' as const,
+        bottom: screenHeight * 0.1, // 10% de la altura de la pantalla
+        left: screenWidth * 0.1, // 10% del ancho de la pantalla
+        backgroundColor: 'white',
+        padding: Math.max(12, screenWidth * 0.03), // Padding responsivo mínimo 12px
+        borderRadius: 10,
+        opacity: 0.8,
+    },
+    confirmButton: {
+        position: 'absolute' as const,
+        bottom: screenHeight * 0.1, // 10% de la altura de la pantalla
+        right: screenWidth * 0.1, // 10% del ancho de la pantalla
+        backgroundColor: 'white',
+        padding: Math.max(12, screenWidth * 0.03), // Padding responsivo mínimo 12px
+        borderRadius: 10,
+        opacity: 0.8,
+    },
+    buttonText: {
+        color: 'black',
+        fontSize: Math.max(16, screenWidth * 0.04), // Tamaño de fuente responsivo mínimo 16px
+        fontWeight: 'bold' as const,
+    },
+    // Botones de cámara responsivos
+    closeButton: {
+        position: 'absolute' as const,
+        top: screenHeight * 0.08, // 8% de la altura de la pantalla
+        left: screenWidth * 0.05, // 5% del ancho de la pantalla
+        zIndex: 1,
+    },
+    rotateButton: {
+        position: 'absolute' as const,
+        top: screenHeight * 0.08, // 8% de la altura de la pantalla
+        right: screenWidth * 0.05, // 5% del ancho de la pantalla
+        zIndex: 1,
+    },
+    iconBackground: {
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        borderRadius: Math.max(20, screenWidth * 0.05), // Radio responsivo mínimo 20px
+        width: Math.max(40, screenWidth * 0.1), // Ancho responsivo mínimo 40px
+        height: Math.max(40, screenWidth * 0.1), // Alto responsivo mínimo 40px
+        justifyContent: 'center' as const,
+        alignItems: 'center' as const,
+    },
+    captureButton: {
+        position: 'absolute' as const,
+        bottom: screenHeight * 0.15, // 15% de la altura de la pantalla
+        width: Math.max(80, screenWidth * 0.2), // Ancho responsivo mínimo 80px
+        height: Math.max(80, screenWidth * 0.2), // Alto responsivo mínimo 80px
+        borderRadius: Math.max(40, screenWidth * 0.1), // Radio responsivo mínimo 40px
+        borderWidth: Math.max(4, screenWidth * 0.01), // Borde responsivo mínimo 4px
+        borderColor: 'white',
+        justifyContent: 'center' as const,
+        alignItems: 'center' as const,
+    },
+    captureButtonInnerCircle: {
+        width: Math.max(65, screenWidth * 0.16), // Ancho responsivo mínimo 65px
+        height: Math.max(65, screenWidth * 0.16), // Alto responsivo mínimo 65px
+        borderRadius: Math.max(32.5, screenWidth * 0.08), // Radio responsivo mínimo 32.5px
+        backgroundColor: 'white',
+    },
+});
