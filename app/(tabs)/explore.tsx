@@ -6,6 +6,7 @@ import { ThemedView } from '@/components/ThemedView';
 import { Camera, useCameraDevice } from 'react-native-vision-camera';
 import { useRef } from 'react';
 import AppBarRegister from '@/components/AppBarRegister';
+import { router } from 'expo-router';
 
 export default function TabTwoScreen() {
   const { height } = useWindowDimensions();
@@ -36,7 +37,7 @@ export default function TabTwoScreen() {
             <FAB
               icon="camera"
               size="large"
-              onPress={() => console.log('Foto Frontal DNI')}
+              onPress={() => router.push('/RandomIA')}
             />
           </Card>
 
