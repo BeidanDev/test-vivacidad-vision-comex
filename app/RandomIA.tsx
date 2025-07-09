@@ -52,6 +52,9 @@ export default function RandomIA() {
                         photo={true} // Habilita la captura de fotos
                     />
 
+                    {/* Rectángulo de guía en el centro */}
+                    <View style={styles.guidelineRect} />
+
                     {/* Close Button (Top Left) */}
                     <TouchableOpacity style={styles.closeButton} onPress={() => {
                         console.log("Close button pressed");
@@ -158,5 +161,15 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         opacity: 0.8,
         marginBottom: 50,
+    },
+    // Nuevo estilo para el rectángulo de guía
+    guidelineRect: {
+        position: 'absolute',
+        width: '90%', // Ajusta el ancho según sea necesario
+        height: 250, // Ajusta la altura según sea necesario para un DNI
+        borderWidth: 2,
+        borderColor: 'white', // Color del borde del rectángulo
+        borderRadius: 10, // Bordes ligeramente redondeados
+        zIndex: 0, // Asegúrate de que esté debajo de los botones pero sobre la cámara
     },
 })
