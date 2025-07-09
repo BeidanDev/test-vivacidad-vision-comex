@@ -3,11 +3,11 @@ import * as SecureStore from 'expo-secure-store';
 import React, { useRef, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { Icon } from "react-native-paper";
-import { Camera, useCameraDevice } from "react-native-vision-camera";
+import { Camera, CameraPosition, useCameraDevice } from "react-native-vision-camera";
 
 export default function RandomIA() {
     const camera = useRef<Camera>(null);
-    const device = useCameraDevice('back');
+    // const device = useCameraDevice('back');
     const { width: screenWidth, height: screenHeight } = useWindowDimensions();
     // const [hasPermission, setHasPermission] = useState(false); // This state isn't currently used, consider using it for camera permission handling.
     const [photoPath, setPhotoPath] = useState<string | null>(null); // Estado para guardar la ruta de la foto tomada
@@ -15,6 +15,8 @@ export default function RandomIA() {
     // Obtener parámetros de la ruta
     const params = useLocalSearchParams();
     const imageType = params.imageType as string;
+    const deviceFormat = params.device as CameraPosition;
+    const device = useCameraDevice(deviceFormat);
 
     // Función para tomar la foto
     const takePhoto = async () => {
@@ -33,7 +35,7 @@ export default function RandomIA() {
     const saveImageToStorage = async (imageType: string) => {
         if (photoPath) {
             try {
-                const key = `dni_${imageType}_image`;
+                const key = `${imageType}_image`;
                 await SecureStore.setItemAsync(key, photoPath);
                 console.log(`Imagen ${imageType} guardada en Secure Storage`);
                 router.back();

@@ -41,9 +41,16 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="selfie"
+        options={{
+          title: 'Selfie Foto',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="camera.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="camera"
         options={{
-          title: 'Camera',
+          title: 'Vivacidad',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="camera.fill" color={color} />,
         }}
       />
